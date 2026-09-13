@@ -1,0 +1,20 @@
+<%= render "shared/admin_subnav" %>
+
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Painel administrativo</h1>
+
+<div class="grid gap-4 sm:grid-cols-3">
+  <%= link_to admin_points_path, class: "bg-white rounded-lg shadow p-6 hover:shadow-md" do %>
+    <p class="text-3xl font-bold text-brand-700"><%= @points_count %></p>
+    <p class="text-gray-600 mt-1">Pontos cadastrados</p>
+  <% end %>
+
+  <%= link_to admin_events_path, class: "bg-white rounded-lg shadow p-6 hover:shadow-md" do %>
+    <p class="text-3xl font-bold text-brand-700"><%= @events_count %></p>
+    <p class="text-gray-600 mt-1">Eventos criados</p>
+  <% end %>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <p class="text-3xl font-bold text-brand-700"><%= @pending_registrations_count %></p>
+    <p class="text-gray-600 mt-1">Inscrições pendentes</p>
+  </div>
+</div>

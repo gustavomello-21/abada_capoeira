@@ -1,0 +1,52 @@
+<div class="max-w-2xl mx-auto bg-white rounded-lg shadow p-6">
+  <h1 class="text-2xl font-bold text-gray-900 mb-1">Inscrição — <%= @event.title %></h1>
+  <p class="text-gray-600 mb-6">Preencha os dados abaixo e anexe o comprovante do pagamento via PIX.</p>
+
+  <%= form_with model: @registration, url: event_registrations_path(@event), html: { class: "space-y-5", multipart: true } do |f| %>
+    <% if @registration.errors.any? %>
+      <div class="bg-red-50 border border-red-200 text-red-800 rounded-md p-4 text-sm">
+        <p class="font-semibold mb-1"><%= pluralize(@registration.errors.count, "erro") %> impediram o envio:</p>
+        <ul class="list-disc list-inside">
+          <% @registration.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= f.fields_for :registration_answers do |af| %>
+      <% field = af.object.event_field %>
+      <div>
+        <%= af.label :value, field.label, class: "block text-sm font-medium text-gray-700" %>
+        <% if field.required? %><span class="text-red-600">*</span><% end %>
+        <%= af.hidden_field :event_field_id %>
+
+        <% case field.field_type %>
+        <% when "number" %>
+          <%= af.text_field :value, type: "number", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+        <% when "date" %>
+          <%= af.text_field :value, type: "date", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+        <% when "choice" %>
+          <%= af.select :value, field.options_array, { include_blank: "Selecione..." }, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+        <% when "checkbox" %>
+          <div class="mt-1">
+            <%= af.check_box :value, { checked_value: "sim", unchecked_value: "não", class: "h-4 w-4 rounded border-gray-300 text-brand-600" } %>
+          </div>
+        <% when "textarea" %>
+          <%= af.text_area :value, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+        <% else %>
+          <%= af.text_field :value, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :payment_proof, "Comprovante PIX (imagem ou PDF)", class: "block text-sm font-medium text-gray-700" %>
+      <%= f.file_field :payment_proof, accept: "image/*,application/pdf", class: "mt-1 block w-full text-sm text-gray-600" %>
+    </div>
+
+    <div>
+      <%= f.submit "Enviar inscrição", class: "bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-md hover:bg-brand-800 cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

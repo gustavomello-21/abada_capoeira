@@ -1,0 +1,20 @@
+<div class="max-w-md mx-auto mt-12 bg-white p-8 rounded-lg shadow">
+  <h2 class="text-2xl font-bold mb-6 text-gray-900">Esqueceu sua senha?</h2>
+
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
+    <%= render "users/shared/error_messages", resource: resource %>
+
+    <div>
+      <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+    </div>
+
+    <div>
+      <%= f.submit "Enviar instruções", class: "w-full bg-brand-700 text-white font-semibold py-2 px-4 rounded-md hover:bg-brand-800 cursor-pointer" %>
+    </div>
+  <% end %>
+
+  <div class="mt-4 text-sm text-gray-600">
+    <%= render "users/shared/links" %>
+  </div>
+</div>

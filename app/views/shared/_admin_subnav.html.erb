@@ -1,0 +1,7 @@
+<div class="mb-6 border-b border-gray-200">
+  <nav class="flex gap-6 text-sm font-medium">
+    <%= link_to "Painel", admin_root_path, class: "py-3 border-b-2 #{current_page?(admin_root_path) ? 'border-brand-700 text-brand-700' : 'border-transparent text-gray-600 hover:text-gray-900'}" %>
+    <%= link_to "Pontos", admin_points_path, class: "py-3 border-b-2 #{request.path.start_with?(admin_points_path) ? 'border-brand-700 text-brand-700' : 'border-transparent text-gray-600 hover:text-gray-900'}" %>
+    <%= link_to "Eventos", admin_events_path, class: "py-3 border-b-2 #{request.path.start_with?(admin_events_path) ? 'border-brand-700 text-brand-700' : 'border-transparent text-gray-600 hover:text-gray-900'}" %>
+  </nav>
+</div>

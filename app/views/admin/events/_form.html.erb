@@ -1,0 +1,72 @@
+<%= form_with model: [ :admin, event ], html: { class: "space-y-6" } do |f| %>
+  <div class="bg-white rounded-lg shadow p-6 space-y-4">
+    <% if event.errors.any? %>
+      <div class="bg-red-50 border border-red-200 text-red-800 rounded-md p-4 text-sm">
+        <p class="font-semibold mb-1"><%= pluralize(event.errors.count, "erro") %> impediram o salvamento:</p>
+        <ul class="list-disc list-inside">
+          <% event.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :title, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+    </div>
+
+    <div>
+      <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.rich_text_area :description, class: "mt-1 block w-full rounded-md border border-gray-300 shadow-sm min-h-40" %>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div>
+        <%= f.label :starts_at, "Início", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.datetime_field :starts_at, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+      </div>
+      <div>
+        <%= f.label :ends_at, "Término", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.datetime_field :ends_at, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+      </div>
+      <div>
+        <%= f.label :registration_deadline, "Prazo de inscrição", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.date_field :registration_deadline, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+      </div>
+    </div>
+
+    <div>
+      <%= f.label :status, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :status, [ [ "Rascunho", "draft" ], [ "Publicado", "published" ], [ "Encerrado", "closed" ] ],
+            {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500" %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6" data-controller="nested-fields">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold text-gray-900">Campos de inscrição</h3>
+      <button type="button" data-action="nested-fields#add" class="text-sm bg-gray-100 text-gray-800 font-medium px-3 py-1.5 rounded-md hover:bg-gray-200">
+        + Adicionar campo
+      </button>
+    </div>
+
+    <p class="text-sm text-gray-500 mb-4">Defina os campos que o aluno vai preencher ao se inscrever neste evento (ex: corda, idade, nome do professor).</p>
+
+    <div data-nested-fields-target="container">
+      <%= f.fields_for :event_fields do |ff| %>
+        <%= render "event_field_fields", f: ff %>
+      <% end %>
+    </div>
+
+    <template data-nested-fields-target="template">
+      <%= f.fields_for :event_fields, EventField.new, child_index: "NEW_RECORD" do |ff| %>
+        <%= render "event_field_fields", f: ff %>
+      <% end %>
+    </template>
+  </div>
+
+  <div>
+    <%= f.submit "Salvar evento", class: "bg-brand-700 text-white font-semibold px-5 py-2 rounded-md hover:bg-brand-800 cursor-pointer" %>
+  </div>
+<% end %>

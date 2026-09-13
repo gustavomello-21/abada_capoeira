@@ -1,0 +1,36 @@
+<div class="bg-white rounded-lg shadow p-6">
+  <h1 class="text-2xl font-bold text-gray-900"><%= @event.title %></h1>
+
+  <dl class="grid sm:grid-cols-3 gap-4 text-sm mt-4">
+    <div>
+      <dt class="text-gray-500">Início</dt>
+      <dd class="text-gray-900"><%= @event.starts_at&.strftime("%d/%m/%Y %H:%M") || "-" %></dd>
+    </div>
+    <div>
+      <dt class="text-gray-500">Término</dt>
+      <dd class="text-gray-900"><%= @event.ends_at&.strftime("%d/%m/%Y %H:%M") || "-" %></dd>
+    </div>
+    <div>
+      <dt class="text-gray-500">Prazo de inscrição</dt>
+      <dd class="text-gray-900"><%= @event.registration_deadline&.strftime("%d/%m/%Y") || "-" %></dd>
+    </div>
+  </dl>
+
+  <div class="prose max-w-none mt-6"><%= @event.description %></div>
+
+  <div class="mt-8 border-t pt-6">
+    <% if @registration %>
+      <% status_labels = { "pending" => "Pendente", "approved" => "Aprovada", "rejected" => "Rejeitada" } %>
+      <% status_classes = { "pending" => "bg-yellow-100 text-yellow-800", "approved" => "bg-brand-green-100 text-brand-green-800", "rejected" => "bg-red-100 text-red-800" } %>
+      <p class="text-gray-700">
+        Você já está inscrito neste evento.
+        <span class="text-xs px-2 py-1 rounded-full <%= status_classes[@registration.status] %>"><%= status_labels[@registration.status] %></span>
+      </p>
+      <% if @registration.rejected? && @registration.rejection_reason.present? %>
+        <p class="text-sm text-red-700 mt-2">Motivo: <%= @registration.rejection_reason %></p>
+      <% end %>
+    <% else %>
+      <%= link_to "Inscrever-se", new_event_registration_path(@event), class: "bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-md hover:bg-brand-800" %>
+    <% end %>
+  </div>
+</div>

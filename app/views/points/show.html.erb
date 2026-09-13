@@ -1,0 +1,29 @@
+<div class="max-w-2xl mx-auto bg-white rounded-lg shadow overflow-hidden">
+  <% if @point.photo.attached? %>
+    <%= image_tag @point.photo, class: "w-full h-64 object-cover" %>
+  <% end %>
+
+  <div class="p-6">
+    <h1 class="text-2xl font-bold text-gray-900"><%= @point.city %> - <%= @point.state %></h1>
+    <p class="text-gray-600 mt-1"><%= @point.full_street_address %></p>
+
+    <dl class="mt-6 space-y-3">
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Professor responsável</dt>
+        <dd class="text-gray-900"><%= @point.teacher_name %></dd>
+      </div>
+      <div>
+        <dt class="text-sm font-medium text-gray-500">Telefone</dt>
+        <dd class="text-gray-900"><%= @point.phone %></dd>
+      </div>
+      <% if @point.details.present? %>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Detalhes</dt>
+          <dd class="text-gray-900 whitespace-pre-line"><%= @point.details %></dd>
+        </div>
+      <% end %>
+    </dl>
+
+    <%= link_to "← Voltar para o mapa", points_path, class: "inline-block mt-6 text-brand-700 hover:underline" %>
+  </div>
+</div>

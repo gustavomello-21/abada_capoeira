@@ -1,0 +1,35 @@
+pt-BR:
+  activerecord:
+    attributes:
+      point:
+        teacher_name: Professor responsável
+        phone: Telefone
+        street: Rua
+        number: Número
+        complement: Complemento
+        neighborhood: Bairro
+        city: Cidade
+        state: Estado
+        zip_code: CEP
+        details: Detalhes
+        photo: Foto
+      event:
+        title: Título
+        description: Descrição
+        starts_at: Início
+        ends_at: Término
+        registration_deadline: Prazo de inscrição
+        status: Status
+      event_field:
+        label: Nome do campo
+        field_type: Tipo
+        required: Obrigatório
+        options_text: Opções (uma por linha)
+      registration:
+        status: Status
+        payment_proof: Comprovante de pagamento
+      user:
+        name: Nome
+        phone: Telefone
+        email: E-mail
+        password: Senha

@@ -1,0 +1,40 @@
+<%= render "shared/admin_subnav" %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900"><%= @event.title %></h1>
+    <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800"><%= @event.status %></span>
+  </div>
+  <div class="space-x-3">
+    <%= link_to "Editar evento", edit_admin_event_path(@event), class: "text-brand-700 hover:underline" %>
+    <%= link_to "Ver inscrições", admin_event_registrations_path(@event), class: "bg-brand-700 text-white font-semibold px-4 py-2 rounded-md hover:bg-brand-800" %>
+  </div>
+</div>
+
+<div class="bg-white rounded-lg shadow p-6 space-y-4">
+  <div class="prose max-w-none"><%= @event.description %></div>
+
+  <dl class="grid sm:grid-cols-3 gap-4 text-sm">
+    <div>
+      <dt class="text-gray-500">Início</dt>
+      <dd class="text-gray-900"><%= @event.starts_at&.strftime("%d/%m/%Y %H:%M") || "-" %></dd>
+    </div>
+    <div>
+      <dt class="text-gray-500">Término</dt>
+      <dd class="text-gray-900"><%= @event.ends_at&.strftime("%d/%m/%Y %H:%M") || "-" %></dd>
+    </div>
+    <div>
+      <dt class="text-gray-500">Prazo de inscrição</dt>
+      <dd class="text-gray-900"><%= @event.registration_deadline&.strftime("%d/%m/%Y") || "-" %></dd>
+    </div>
+  </dl>
+
+  <div>
+    <h3 class="font-semibold text-gray-900 mb-2">Campos de inscrição</h3>
+    <ul class="text-sm text-gray-700 list-disc list-inside">
+      <% @event.event_fields.each do |field| %>
+        <li><%= field.label %> (<%= EventField.human_field_type(field.field_type) %><%= field.required? ? ", obrigatório" : "" %>)</li>
+      <% end %>
+    </ul>
+  </div>
+</div>

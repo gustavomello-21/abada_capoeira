@@ -1,0 +1,16 @@
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Eventos</h1>
+
+<% if @events.any? %>
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <% @events.each do |event| %>
+      <%= link_to event_path(event), class: "block bg-white rounded-lg shadow p-5 hover:shadow-md" do %>
+        <h2 class="font-semibold text-lg text-gray-900"><%= event.title %></h2>
+        <% if event.starts_at %>
+          <p class="text-sm text-gray-500 mt-1"><%= event.starts_at.strftime("%d/%m/%Y") %></p>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-gray-600">Nenhum evento disponível no momento.</p>
+<% end %>
