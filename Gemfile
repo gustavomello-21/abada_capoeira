@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gem "rails", "~> 8.0.5"
 # Pinned: json 3.x removed the `quirks_mode` kwarg that ActiveSupport::JSON.decode
 # (activesupport 8.0.5.1) still passes, breaking JSON parsing across the app.
-gem "json", "~> 2.7"
+gem "json", "~> 3.0"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record
