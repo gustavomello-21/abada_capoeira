@@ -23,6 +23,29 @@ class Point < ApplicationRecord
     [ street, number, neighborhood, city, state, zip_code, "Brasil" ].compact_blank.join(", ")
   end
 
+  # Geocodifica tentando primeiro o endereço mais completo e "recuando" para
+  # versões mais simples caso não encontre resultado.
+  #
+  # O bairro é preenchido automaticamente pelo ViaCEP a partir do CEP, mas o
+  # nome oficial dos Correios nem sempre bate com o nome que o OpenStreetMap
+  # usa pra mesma área — quando isso acontece, incluir o bairro na busca faz
+  # o Nominatim não encontrar nada. Por isso ele fica de fora das tentativas
+  # de geocodificação (o bairro continua sendo salvo e exibido normalmente
+  # em full_street_address).
+  def geocode
+    geocode_search_candidates.each do |address|
+      result = Geocoder.search(address).first
+      next unless result
+
+      self.latitude = result.latitude
+      self.longitude = result.longitude
+      return
+    end
+
+    self.latitude = nil
+    self.longitude = nil
+  end
+
   def address_changed?
     street_changed? || number_changed? || neighborhood_changed? || city_changed? || state_changed? || zip_code_changed?
   end
@@ -32,6 +55,14 @@ class Point < ApplicationRecord
   end
 
   private
+
+  def geocode_search_candidates
+    [
+      [ street, number, city, state, zip_code, "Brasil" ],
+      [ street, city, state, "Brasil" ],
+      [ city, state, "Brasil" ]
+    ].map { |parts| parts.compact_blank.join(", ") }.uniq.reject(&:blank?)
+  end
 
   def update_geocode_status
     self.geocode_status = latitude.present? && longitude.present? ? "success" : "failed"
