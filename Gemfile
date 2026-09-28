@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.5"
+gem "rails", "~> 8.1.4"
 # Pinned: json 3.x removed the `quirks_mode` kwarg that ActiveSupport::JSON.decode
 # (activesupport 8.0.5.1) still passes, breaking JSON parsing across the app.
 gem "json", "~> 2.7"
